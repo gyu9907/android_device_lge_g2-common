@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ifneq ($(filter g2 d800 d801 d802 d803 f320 ls980 vs980,$(TARGET_DEVICE)),)
 
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
@@ -28,3 +29,5 @@ LOCAL_MODULE := hwaddrs
 LOCAL_PROPRIETARY_MODULE := true
 
 include $(BUILD_EXECUTABLE)
+
+endif
