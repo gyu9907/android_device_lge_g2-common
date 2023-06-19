@@ -11,6 +11,7 @@ include $(BUILD_PREBUILT)
 
 # Init scripts
 
+ifneq ($(filter g2 d800 d801 d802 d803 ls980 vs980,$(TARGET_DEVICE)),)
 include $(CLEAR_VARS)
 LOCAL_MODULE            := fstab.g2
 LOCAL_MODULE_TAGS       := optional eng
@@ -18,6 +19,17 @@ LOCAL_MODULE_CLASS      := ETC
 LOCAL_SRC_FILES         := etc/fstab.g2
 LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
+endif
+
+ifneq ($(filter f320 f300,$(TARGET_DEVICE)),)
+include $(CLEAR_VARS)
+LOCAL_MODULE            := fstab.g2
+LOCAL_MODULE_TAGS       := optional eng
+LOCAL_MODULE_CLASS      := ETC
+LOCAL_SRC_FILES         := etc/fstab_sd.g2
+LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
+include $(BUILD_PREBUILT)
+endif
 
 include $(CLEAR_VARS)
 LOCAL_MODULE            := init.g2.rc
