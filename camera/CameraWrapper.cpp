@@ -173,6 +173,19 @@ static char *camera_fixup_setparams(int id, const char *settings)
         slowShutterMode = (strcmp(params.get(KEY_EXPOSURE_TIME), "0"));
     }
 
+#ifdef CAMERA_USE_VIDEO_CAF
+    // Camera2 a1ec04a9f uses picture/touch AF during video preview. The legacy
+    // f300 HAL never completes those scans with recording-hint=true; use its
+    // native video CAF path, including its real focus-result callback.
+    const char *focusMode = params.get(android::CameraParameters::KEY_FOCUS_MODE);
+    if (videoMode && id == 0 && focusMode &&
+            (!strcmp(focusMode, android::CameraParameters::FOCUS_MODE_AUTO) ||
+             !strcmp(focusMode, android::CameraParameters::FOCUS_MODE_CONTINUOUS_PICTURE))) {
+        params.set(android::CameraParameters::KEY_FOCUS_MODE,
+                android::CameraParameters::FOCUS_MODE_CONTINUOUS_VIDEO);
+    }
+#endif
+
     /* Disable flash if slow shutter is enabled */
     if (!videoMode) {
         if (id == 0) {

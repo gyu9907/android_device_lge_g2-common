@@ -4,6 +4,10 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
     CameraWrapper.cpp
 
+ifeq ($(TARGET_DEVICE),f300)
+LOCAL_CFLAGS += -DCAMERA_USE_VIDEO_CAF
+endif
+
 LOCAL_HEADER_LIBRARIES += \
     libnativebase_headers
 
