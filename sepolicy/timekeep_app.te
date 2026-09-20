@@ -6,12 +6,17 @@ type timekeep_app, domain;
 
 app_domain(timekeep_app)
 
+# This system-UID app must traverse user-labeled data directories while
+# retaining access to the s0 vendor time files shared with the native daemon.
+typeattribute timekeep_app mlstrustedsubject;
+
 # Needed to get access to /data/data/com.sony.timekeep
 # Only getattr and search are requested since TimeKeep does not write to its own directory
 # /data/data/com.sony.timekeep only has two empty subdirs
-dontaudit timekeep_app app_data_file:dir { getattr search };
+allow timekeep_app app_data_file:dir { getattr search };
 
 allow timekeep_app activity_service:service_manager find;
+allow timekeep_app game_service:service_manager find;
 
 # Read from /data/vendor/time/ats_2
 allow timekeep_app time_data_file:dir create_dir_perms;
